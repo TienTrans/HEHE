@@ -1,70 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="./style.css" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ASCII Art Typing Effect</title>
+        <style>
+            body {
+                background-color: #000;
+                color: #00ff00; /* Màu xanh giống kiểu màn hình terminal */
+                font-family: monospace; /* Font kiểu chữ console */
+                white-space: pre; /* Bảo đảm các khoảng trắng được giữ nguyên */
+            }
+            #ascii-art {
+                padding: 20px;
+            }
+        </style>
     </head>
     <body>
-        <div class="container">
-            <div>
-                <h1 class="header_text">Do you wanna go out with me?</h1>
-                <h1 class="header_text">Are you free tonight?</h1>
-            </div>
+        <div id="ascii-art" style="margin: auto auto; width: 500px"></div>
 
-            <img
-                src="./img/1.jpg"
-                alt=""
-                style="width: 300px; height: 300px; object-fit: cover"
-                class="hinh1"
-            />
-            <img
-                src="./img/1.jpg"
-                alt=""
-                style="width: 300px; height: 300px; object-fit: cover"
-                class="hinh1"
-            />
-            <img
-                src="./img/2.jpg"
-                alt=""
-                style="width: 300px; height: 300px; object-fit: cover"
-                class="hinh2"
-            />
-            <div class="buttons">
-                <button class="btn" id="yesButton" onclick="nextPage()">
-                    Yes
-                </button>
-                <button
-                    class="btn"
-                    id="noButton"
-                    onmouseover="moveButton()"
-                    onclick="moveButton()"
-                >
-                    No
-                </button>
-                <script>
-                    function nextPage() {
-                        window.location.href = "yes.html"
-                    }
+        <script>
+            const asciiArt = `
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠋⠀⠹⣷⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⢹⡇⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⠸⣿⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡇⠀⠀⠀⠀⣿⣠⣤⣤⣄⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣸⣧⠀⠀⠀⠀⣿⡏⠀⠈⣿⡆
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡾⠉⠉⠟⠀⠀⠀⠀⠉⠁⠀⠀⢹⡇
+⠀⠀⠀⠀⠀⠀⠀⠀⢠⣶⣦⠀⠀⠀⢸⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠇
+⣠⣄⠀⠀⠀⠀⠀⢀⣾⠁⢹⣧⠀⠀⢈⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠏⠀
+⣿⠛⢷⣤⣤⡴⠶⠾⠃⠀⠀⣿⢀⣴⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⣀⣼⠏⠀⠀
+⢻⡆⣀⡀⠀⠀⠀⠀⣀⣀⠀⣿⡟⠁⠀⠀⠀⠀⠀⢀⣠⣤⠶⠞⠋⠁⠀⠀⠀
+⠸⣿⡿⠟⣿⣄⡾⠟⡛⢓⣿⠋⠀⠀⠀⣀⣤⡶⠞⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠹⣷⣼⣁⣽⣧⣽⠿⠋⢁⣠⣴⠶⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⣠⡿⠛⠉⠁⠀⠀⠰⣯⣁⣠⠴⠛⢻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⢀⣾⠋⢀⣄⠀⠀⠀⣀⠀⢿⡷⠦⠴⠶⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⢸⡏⢠⣿⢹⣧⠀⣾⠻⣧⠘⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠘⢷⠟⠁⢸⡏⠀⣿⠀⠻⣦⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢸⡇⢸⡟⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠈⠙⠋⠀⠀⠀`
 
-                    function moveButton() {
-                        var x =
-                            Math.random() *
-                                (window.innerWidth -
-                                    document.getElementById("noButton")
-                                        .offsetWidth) -
-                            85
-                        var y =
-                            Math.random() *
-                                (window.innerHeight -
-                                    document.getElementById("noButton")
-                                        .offsetHeight) -
-                            48
-                        document.getElementById(
-                            "noButton"
-                        ).style.left = `${x}px`
-                        document.getElementById("noButton").style.top = `${y}px`
-                    }
-                </script>
-            </div>
-        </div>
+            const asciiElement = document.getElementById("ascii-art")
+            let currentIndex = 0
+
+            function typeAsciiArt() {
+                if (currentIndex < asciiArt.length) {
+                    asciiElement.textContent += asciiArt.charAt(currentIndex)
+                    currentIndex++
+                    setTimeout(typeAsciiArt, 20) // Điều chỉnh thời gian delay giữa mỗi ký tự
+                }
+            }
+
+            // Gọi hàm để bắt đầu hiệu ứng typing
+            typeAsciiArt()
+        </script>
     </body>
 </html>
